@@ -1,0 +1,23 @@
+{
+  "name": "ui-errors-analytics-api",
+  "version": "1.0.0",
+  "description": "Serverless analytics API for UI Errors CLI",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "vercel",
+    "serverless",
+    "analytics",
+    "cli",
+    "github"
+  ],
+  "author": "ui-errors",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.7.0"
+  }
+}
