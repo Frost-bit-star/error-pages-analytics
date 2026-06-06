@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UI Errors</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            outfit: ['Outfit', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html, body { height: 100%; margin: 0; }
+    .app-shell { height: 100%; overflow-y: auto; overflow-x: hidden; }
+    .gradient-text { background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .card-glow:hover { box-shadow: 0 0 40px rgba(255, 107, 107, 0.15); }
+    .template-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .template-card:hover { transform: translateY(-8px); }
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+    .float-anim { animation: float 6s ease-in-out infinite; }
+    @keyframes glitch { 0%, 100% { transform: translate(0); } 20% { transform: translate(-2px, 2px); } 40% { transform: translate(2px, -2px); } 60% { transform: translate(-1px, -1px); } 80% { transform: translate(1px, 1px); } }
+    .glitch:hover { animation: glitch 0.3s ease infinite; }
+    .nav-link { position: relative; }
+    .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #ff6b6b; transition: width 0.3s; }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+    .preview-frame { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ <script src="/_sdk/telemetry_sdk.js"></script></head>
+ <body class="h-full">
+  <div class="app-shell bg-gray-950 text-white font-outfit"><!-- Navigation -->
+   <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 bg-gray-950/90 backdrop-blur-xl border-b border-gray-800/50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between"><a href="#home" class="flex items-center gap-2 group">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500 to-orange-400 flex items-center justify-center font-mono font-bold text-sm">
+       !
+      </div><span class="font-bold text-lg">UI Errors</span> </a>
+     <div class="hidden md:flex items-center gap-8"><a href="#home" class="nav-link active text-sm font-medium text-gray-300 hover:text-white transition-colors">Home</a> <a href="#templates" class="nav-link text-sm font-medium text-gray-300 hover:text-white transition-colors">Templates</a> <a href="#winners" class="nav-link text-sm font-medium text-gray-300 hover:text-white transition-colors">Winners</a> <a href="#about" class="nav-link text-sm font-medium text-gray-300 hover:text-white transition-colors">About</a> <a href="#contact" class="nav-link text-sm font-medium text-gray-300 hover:text-white transition-colors">Contact</a>
+     </div><button id="mobile-toggle" class="md:hidden text-gray-300"> <i data-lucide="menu" class="w-6 h-6"></i> </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-3"><a href="#home" class="block text-sm text-gray-300 hover:text-white">Home</a> <a href="#templates" class="block text-sm text-gray-300 hover:text-white">Templates</a> <a href="#winners" class="block text-sm text-gray-300 hover:text-white">Winners</a> <a href="#about" class="block text-sm text-gray-300 hover:text-white">About</a> <a href="#contact" class="block text-sm text-gray-300 hover:text-white">Contact</a>
+    </div>
+   </nav><!-- Hero Section -->
+   <section id="home" class="pt-32 pb-20 px-6 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-20">
+     <div class="absolute top-20 left-10 w-72 h-72 bg-red-500/30 rounded-full blur-3xl"></div>
+     <div class="absolute bottom-10 right-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
+     <div class="absolute top-40 right-40 w-48 h-48 bg-yellow-500/20 rounded-full blur-3xl"></div>
+    </div>
+    <div class="max-w-5xl mx-auto text-center relative z-10">
+     <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-800/60 border border-gray-700/50 mb-8"><span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> <span class="text-xs font-mono text-gray-400">Open Source • Free Forever</span>
+     </div>
+     <h1 id="hero-heading" class="text-5xl md:text-7xl font-black mb-6 leading-tight"><span class="gradient-text">Beautiful Error Pages</span><br><span class="text-gray-200">For Imperfect Moments</span></h1>
+     <p id="site-tagline" class="text-xl text-gray-400 max-w-2xl mx-auto mb-10 font-light">We believe our mistakes should feel intentional. Free, open-source error page templates that turn frustration into delight.</p>
+     <div class="flex flex-wrap justify-center gap-4"><a href="#templates" class="px-8 py-3 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl font-semibold hover:opacity-90 transition-opacity">Browse Templates</a> <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="px-8 py-3 bg-gray-800 border border-gray-700 rounded-xl font-semibold hover:bg-gray-700 transition-colors flex items-center gap-2"> <i data-lucide="github" class="w-5 h-5"></i> GitHub </a>
+     </div>
+     <div class="mt-16 flex justify-center gap-12 text-center">
+      <div>
+       <p class="text-3xl font-bold text-white">12+</p>
+       <p class="text-sm text-gray-500">Templates</p>
+      </div>
+      <div>
+       <p class="text-3xl font-bold text-white">5K+</p>
+       <p class="text-sm text-gray-500">Downloads</p>
+      </div>
+      <div>
+       <p class="text-3xl font-bold text-white">100%</p>
+       <p class="text-sm text-gray-500">Free</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Templates Section -->
+   <section id="templates" class="py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+     <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold mb-4">Error Templates</h2>
+      <p class="text-gray-400 max-w-xl mx-auto">Every HTTP error code deserves a beautiful face. Click any template to preview it.</p>
+     </div><!-- Filter Tabs -->
+     <div class="flex flex-wrap justify-center gap-3 mb-12"><button class="filter-btn active px-5 py-2 rounded-lg text-sm font-medium bg-red-500/20 text-red-400 border border-red-500/30" data-filter="all">All</button> <button class="filter-btn px-5 py-2 rounded-lg text-sm font-medium bg-gray-800 text-gray-400 border border-gray-700 hover:border-gray-600" data-filter="4xx">4xx Client</button> <button class="filter-btn px-5 py-2 rounded-lg text-sm font-medium bg-gray-800 text-gray-400 border border-gray-700 hover:border-gray-600" data-filter="5xx">5xx Server</button>
+     </div><!-- Template Grid -->
+     <div id="template-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+     </div>
+    </div>
+   </section><!-- Preview Modal -->
+   <div id="preview-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-6 bg-black/80 backdrop-blur-sm">
+    <div class="w-full max-w-4xl max-h-full overflow-auto rounded-2xl border border-gray-700 bg-gray-900">
+     <div class="flex items-center justify-between p-4 border-b border-gray-800">
+      <div class="flex items-center gap-2">
+       <div class="w-3 h-3 rounded-full bg-red-500"></div>
+       <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+       <div class="w-3 h-3 rounded-full bg-green-500"></div><span id="modal-url" class="ml-3 text-xs font-mono text-gray-500">yoursite.com/404</span>
+      </div><button id="close-modal" class="text-gray-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+     </div>
+     <div id="modal-content" class="p-8 preview-frame min-h-[400px] flex items-center justify-center">
+     </div>
+    </div>
+   </div><!-- Winners Section -->
+   <section id="winners" class="py-20 px-6 bg-gray-900/50">
+    <div class="max-w-7xl mx-auto">
+     <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold mb-4">Community Winners 🏆</h2>
+      <p class="text-gray-400 max-w-xl mx-auto">Top-voted error pages submitted by our community. These developers turned bugs into art.</p>
+     </div>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-gray-800/50 rounded-2xl p-6 border border-yellow-500/30 relative">
+       <div class="absolute -top-3 -right-3 w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center text-black font-bold text-sm">
+        1st
+       </div>
+       <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 mb-4 flex items-center justify-center font-bold">
+        AK
+       </div>
+       <h3 class="font-bold text-lg mb-1">Alex Kim</h3>
+       <p class="text-sm text-gray-400 mb-3">Animated glitch 404 with retro CRT effect</p>
+       <div class="flex items-center gap-2 text-yellow-400 text-sm">
+        <i data-lucide="star" class="w-4 h-4"></i> 2,847 votes
+       </div>
+      </div>
+      <div class="bg-gray-800/50 rounded-2xl p-6 border border-gray-600/30 relative">
+       <div class="absolute -top-3 -right-3 w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center text-black font-bold text-sm">
+        2nd
+       </div>
+       <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 mb-4 flex items-center justify-center font-bold">
+        SR
+       </div>
+       <h3 class="font-bold text-lg mb-1">Sara Rivera</h3>
+       <p class="text-sm text-gray-400 mb-3">Space-themed 500 with floating astronaut</p>
+       <div class="flex items-center gap-2 text-gray-300 text-sm">
+        <i data-lucide="star" class="w-4 h-4"></i> 2,103 votes
+       </div>
+      </div>
+      <div class="bg-gray-800/50 rounded-2xl p-6 border border-orange-500/30 relative">
+       <div class="absolute -top-3 -right-3 w-10 h-10 bg-orange-600 rounded-full flex items-center justify-center text-black font-bold text-sm">
+        3rd
+       </div>
+       <div class="w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 mb-4 flex items-center justify-center font-bold">
+        MJ
+       </div>
+       <h3 class="font-bold text-lg mb-1">Mateo Jensen</h3>
+       <p class="text-sm text-gray-400 mb-3">Minimalist 403 with typewriter animation</p>
+       <div class="flex items-center gap-2 text-orange-400 text-sm">
+        <i data-lucide="star" class="w-4 h-4"></i> 1,756 votes
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- About Section -->
+   <section id="about" class="py-20 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+     <h2 class="text-4xl font-bold mb-6">Why UI Errors?</h2>
+     <p class="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">Every app breaks. Every server hiccups. But that doesn't mean your users should suffer ugly, default error pages. We make the broken parts beautiful.</p>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="p-6">
+       <div class="w-14 h-14 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center mb-4 mx-auto">
+        <i data-lucide="code" class="w-6 h-6 text-red-400"></i>
+       </div>
+       <h3 class="font-semibold mb-2">Copy &amp; Paste</h3>
+       <p class="text-sm text-gray-500">Every template is a single HTML file. Just drop it in.</p>
+      </div>
+      <div class="p-6">
+       <div class="w-14 h-14 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center mb-4 mx-auto">
+        <i data-lucide="palette" class="w-6 h-6 text-blue-400"></i>
+       </div>
+       <h3 class="font-semibold mb-2">Fully Customizable</h3>
+       <p class="text-sm text-gray-500">Tailwind-based. Change colors, text, and layout in seconds.</p>
+      </div>
+      <div class="p-6">
+       <div class="w-14 h-14 rounded-xl bg-green-500/10 border border-green-500/30 flex items-center justify-center mb-4 mx-auto">
+        <i data-lucide="heart" class="w-6 h-6 text-green-400"></i>
+       </div>
+       <h3 class="font-semibold mb-2">Open Source</h3>
+       <p class="text-sm text-gray-500">MIT licensed. Use them anywhere, no attribution needed.</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Contact Section -->
+   <section id="contact" class="py-20 px-6 bg-gray-900/50">
+    <div class="max-w-2xl mx-auto">
+     <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold mb-4">Get In Touch</h2>
+      <p class="text-gray-400">Want to contribute a template or report a bug? We'd love to hear from you.</p>
+     </div>
+     <form id="contact-form" class="space-y-5">
+      <div><label for="contact-name" class="block text-sm font-medium text-gray-300 mb-2">Name</label> <input id="contact-name" type="text" placeholder="Your name" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 transition-colors">
+      </div>
+      <div><label for="contact-email" class="block text-sm font-medium text-gray-300 mb-2">Email</label> <input id="contact-email" type="email" placeholder="you@example.com" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 transition-colors">
+      </div>
+      <div><label for="contact-message" class="block text-sm font-medium text-gray-300 mb-2">Message</label> <textarea id="contact-message" rows="4" placeholder="Your message..." class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 transition-colors resize-none"></textarea>
+      </div><button type="submit" class="w-full py-3 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl font-semibold hover:opacity-90 transition-opacity">Send Message</button>
+      <p id="form-success" class="hidden text-center text-green-400 text-sm">✓ Message sent! We'll get back to you soon.</p>
+     </form>
+    </div>
+   </section><!-- Footer -->
+   <footer class="border-t border-gray-800 py-12 px-6">
+    <div class="max-w-7xl mx-auto">
+     <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+      <div>
+       <div class="flex items-center gap-2 mb-4">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500 to-orange-400 flex items-center justify-center font-mono font-bold text-sm">
+         !
+        </div><span class="font-bold text-lg">UI Errors</span>
+       </div>
+       <p class="text-sm text-gray-500">Making broken things beautiful since 2024.</p>
+      </div>
+      <div>
+       <h4 class="font-semibold mb-4 text-sm text-gray-300">Navigation</h4>
+       <ul class="space-y-2 text-sm text-gray-500">
+        <li><a href="#home" class="hover:text-white transition-colors">Home</a></li>
+        <li><a href="#templates" class="hover:text-white transition-colors">Templates</a></li>
+        <li><a href="#winners" class="hover:text-white transition-colors">Winners</a></li>
+        <li><a href="#about" class="hover:text-white transition-colors">About</a></li>
+       </ul>
+      </div>
+      <div>
+       <h4 class="font-semibold mb-4 text-sm text-gray-300">Resources</h4>
+       <ul class="space-y-2 text-sm text-gray-500">
+        <li><a href="#" class="hover:text-white transition-colors">Documentation</a></li>
+        <li><a href="#" class="hover:text-white transition-colors">Contributing</a></li>
+        <li><a href="#" class="hover:text-white transition-colors">Changelog</a></li>
+       </ul>
+      </div>
+      <div>
+       <h4 class="font-semibold mb-4 text-sm text-gray-300">Community</h4>
+       <div class="flex gap-3"><a href="#" class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-gray-500 transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a> <a href="#" class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-gray-500 transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a> <a href="#" class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-gray-500 transition-colors"><i data-lucide="message-circle" class="w-5 h-5"></i></a>
+       </div>
+      </div>
+     </div>
+     <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-gray-600">© 2024 UI Errors. MIT License. Made with ❤️ and broken servers.</p>
+      <p class="text-xs font-mono text-gray-700">HTTP/1.1 200 OK</p>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+    // Template data
+    const templates = [
+      { code: '400', title: 'Bad Request', category: '4xx', desc: 'When the request makes no sense', color: 'from-yellow-500 to-orange-500', preview: `<div class="text-center"><p class="text-8xl font-black text-yellow-400 mb-4" style="font-family:JetBrains Mono">400</p><p class="text-2xl font-bold text-white mb-2">Bad Request</p><p class="text-gray-400">Your browser sent something we couldn't understand.</p><div class="mt-6 inline-block px-6 py-2 border border-yellow-500/50 rounded-lg text-yellow-400 text-sm">← Go Back</div></div>` },
+      { code: '401', title: 'Unauthorized', category: '4xx', desc: 'Access denied, stylishly', color: 'from-purple-500 to-indigo-500', preview: `<div class="text-center"><div class="w-20 h-20 mx-auto mb-6 rounded-full border-4 border-purple-500/50 flex items-center justify-center"><svg width="32" height="32" fill="none" stroke="#a855f7" stroke-width="2"><rect x="5" y="11" width="22" height="16" rx="3"/><path d="M8 11V7a8 8 0 0116 0v4"/></svg></div><p class="text-7xl font-black text-purple-400 mb-2" style="font-family:JetBrains Mono">401</p><p class="text-xl text-white mb-2">Unauthorized</p><p class="text-gray-400 text-sm">You need to log in to see this page.</p></div>` },
+      { code: '403', title: 'Forbidden', category: '4xx', desc: 'The velvet rope of the internet', color: 'from-red-600 to-rose-500', preview: `<div class="text-center"><p class="text-9xl font-black text-red-500/20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="font-family:JetBrains Mono">403</p><div class="relative"><p class="text-3xl font-bold text-white mb-2">Forbidden</p><p class="text-gray-400">You don't have permission to access this resource.</p><div class="mt-4 w-32 h-1 bg-red-500 mx-auto rounded"></div></div></div>` },
+      { code: '404', title: 'Not Found', category: '4xx', desc: 'The classic, reimagined', color: 'from-cyan-500 to-blue-500', preview: `<div class="text-center"><div class="relative inline-block"><p class="text-[120px] font-black leading-none" style="font-family:JetBrains Mono;background:linear-gradient(135deg,#06b6d4,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent">404</p></div><p class="text-xl text-white mt-4 mb-2">Page Not Found</p><p class="text-gray-400 text-sm max-w-xs mx-auto">The page you're looking for has drifted into the void.</p><div class="mt-6 flex gap-3 justify-center"><span class="px-5 py-2 bg-cyan-500 rounded-lg text-sm font-medium text-white">Go Home</span><span class="px-5 py-2 border border-gray-600 rounded-lg text-sm text-gray-300">Report</span></div></div>` },
+      { code: '408', title: 'Request Timeout', category: '4xx', desc: 'Time ran out, beautifully', color: 'from-amber-500 to-yellow-600', preview: `<div class="text-center"><svg class="mx-auto mb-6" width="64" height="64" fill="none" stroke="#f59e0b" stroke-width="1.5"><circle cx="32" cy="32" r="28"/><path d="M32 18v16l10 6"/></svg><p class="text-6xl font-black text-amber-400 mb-2" style="font-family:JetBrains Mono">408</p><p class="text-xl text-white">Request Timeout</p><p class="text-gray-400 text-sm mt-2">The server waited too long for your request.</p></div>` },
+      { code: '418', title: "I'm a Teapot", category: '4xx', desc: 'The internet\'s favorite Easter egg', color: 'from-emerald-400 to-teal-500', preview: `<div class="text-center"><p class="text-6xl mb-4">🫖</p><p class="text-6xl font-black text-emerald-400 mb-2" style="font-family:JetBrains Mono">418</p><p class="text-xl text-white mb-1">I'm a Teapot</p><p class="text-gray-400 text-sm">I refuse to brew coffee. I'm a teapot.</p><p class="text-xs text-gray-600 mt-4 font-mono">RFC 2324</p></div>` },
+      { code: '429', title: 'Too Many Requests', category: '4xx', desc: 'Slow down there, speedster', color: 'from-pink-500 to-rose-500', preview: `<div class="text-center"><p class="text-7xl font-black text-pink-400 mb-4" style="font-family:JetBrains Mono">429</p><p class="text-xl text-white mb-2">Too Many Requests</p><div class="w-48 h-2 bg-gray-700 rounded-full mx-auto mt-4 overflow-hidden"><div class="h-full bg-pink-500 rounded-full" style="width:85%"></div></div><p class="text-gray-500 text-xs mt-2">Rate limit: 85% used</p></div>` },
+      { code: '500', title: 'Internal Server Error', category: '5xx', desc: 'When everything goes wrong', color: 'from-red-500 to-pink-600', preview: `<div class="text-center"><div class="inline-block p-4 rounded-2xl bg-red-500/10 border border-red-500/30 mb-6"><svg width="48" height="48" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="24" cy="24" r="20"/><path d="M24 14v12M24 30v2"/></svg></div><p class="text-7xl font-black text-red-500 mb-2" style="font-family:JetBrains Mono">500</p><p class="text-xl text-white">Internal Server Error</p><p class="text-gray-400 text-sm mt-2">Something broke on our end. We're fixing it.</p></div>` },
+      { code: '502', title: 'Bad Gateway', category: '5xx', desc: 'The middleman failed', color: 'from-violet-500 to-purple-600', preview: `<div class="text-center"><p class="text-7xl font-black text-violet-400 mb-4" style="font-family:JetBrains Mono">502</p><p class="text-xl text-white mb-2">Bad Gateway</p><p class="text-gray-400 text-sm">The server received an invalid response from upstream.</p><div class="flex items-center justify-center gap-3 mt-6"><span class="w-3 h-3 rounded-full bg-green-500"></span><span class="w-8 h-0.5 bg-gray-600"></span><span class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></span><span class="w-8 h-0.5 bg-gray-600"></span><span class="w-3 h-3 rounded-full bg-gray-600"></span></div></div>` },
+      { code: '503', title: 'Service Unavailable', category: '5xx', desc: 'Under maintenance, with style', color: 'from-orange-500 to-red-500', preview: `<div class="text-center"><p class="text-6xl mb-4">🔧</p><p class="text-7xl font-black text-orange-400 mb-2" style="font-family:JetBrains Mono">503</p><p class="text-xl text-white mb-2">Service Unavailable</p><p class="text-gray-400 text-sm">We're performing scheduled maintenance.<br>We'll be back shortly.</p><div class="mt-4 flex gap-2 justify-center"><span class="w-2 h-2 rounded-full bg-orange-500 animate-bounce"></span><span class="w-2 h-2 rounded-full bg-orange-500 animate-bounce" style="animation-delay:0.1s"></span><span class="w-2 h-2 rounded-full bg-orange-500 animate-bounce" style="animation-delay:0.2s"></span></div></div>` },
+      { code: '504', title: 'Gateway Timeout', category: '5xx', desc: 'The server took too long', color: 'from-slate-400 to-gray-600', preview: `<div class="text-center"><p class="text-7xl font-black text-gray-400 mb-4" style="font-family:JetBrains Mono">504</p><p class="text-xl text-white mb-2">Gateway Timeout</p><p class="text-gray-400 text-sm">The upstream server didn't respond in time.</p><div class="mt-6 inline-flex items-center gap-2 px-4 py-2 border border-gray-600 rounded-lg text-sm text-gray-300"><svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.3"/><path d="M12 2a10 10 0 019.5 7" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>Retrying...</div></div>` },
+      { code: '520', title: 'Unknown Error', category: '5xx', desc: 'When even the error is confused', color: 'from-gray-500 to-zinc-600', preview: `<div class="text-center"><p class="text-7xl font-black text-gray-500 mb-4" style="font-family:JetBrains Mono">520</p><p class="text-xl text-white mb-2">Unknown Error</p><p class="text-gray-400 text-sm">Something unexpected happened. Even we're not sure what.</p><p class="font-mono text-xs text-gray-600 mt-4">¯\\_(ツ)_/¯</p></div>` },
+    ];
+
+    // Render template grid
+    function renderTemplates(filter = 'all') {
+      const grid = document.getElementById('template-grid');
+      grid.innerHTML = '';
+      const filtered = filter === 'all' ? templates : templates.filter(t => t.category === filter);
+      filtered.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'template-card card-glow bg-gray-800/40 border border-gray-700/50 rounded-2xl overflow-hidden cursor-pointer';
+        card.innerHTML = `
+          <div class="h-48 preview-frame flex items-center justify-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br ${t.color} opacity-5"></div>
+            <p class="text-6xl font-black font-mono text-white/10">${t.code}</p>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="px-2 py-0.5 rounded text-xs font-mono bg-gradient-to-r ${t.color} text-white">${t.code}</span>
+              <h3 class="font-semibold text-white">${t.title}</h3>
+            </div>
+            <p class="text-sm text-gray-500">${t.desc}</p>
+          </div>
+        `;
+        card.addEventListener('click', () => openPreview(t));
+        grid.appendChild(card);
+      });
+    }
+
+    function openPreview(t) {
+      const modal = document.getElementById('preview-modal');
+      document.getElementById('modal-content').innerHTML = t.preview;
+      document.getElementById('modal-url').textContent = `yoursite.com/${t.code}`;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    document.getElementById('close-modal').addEventListener('click', () => {
+      const modal = document.getElementById('preview-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+    document.getElementById('preview-modal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) {
+        e.currentTarget.classList.add('hidden');
+        e.currentTarget.classList.remove('flex');
+      }
+    });
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => { b.className = 'filter-btn px-5 py-2 rounded-lg text-sm font-medium bg-gray-800 text-gray-400 border border-gray-700 hover:border-gray-600'; });
+        btn.className = 'filter-btn active px-5 py-2 rounded-lg text-sm font-medium bg-red-500/20 text-red-400 border border-red-500/30';
+        renderTemplates(btn.dataset.filter);
+      });
+    });
+
+    // Mobile menu
+    document.getElementById('mobile-toggle').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+
+    // Contact form
+    document.getElementById('contact-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('form-success').classList.remove('hidden');
+      e.target.reset();
+      setTimeout(() => document.getElementById('form-success').classList.add('hidden'), 4000);
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('mobile-menu').classList.add('hidden');
+      });
+    });
+
+    // Init
+    renderTemplates();
+    lucide.createIcons();
+
+    // Element SDK
+    const defaultConfig = {
+      site_tagline: 'We believe our mistakes should feel intentional. Free, open-source error page templates that turn frustration into delight.',
+      hero_heading: 'Beautiful Error Pages',
+      background_color: '#030712',
+      surface_color: '#1f2937',
+      text_color: '#ffffff',
+      primary_action_color: '#ef4444',
+      secondary_action_color: '#6b7280',
+      font_family: 'Outfit',
+      font_size: 16
+    };
+
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange: async (config) => {
+        const tagline = config.site_tagline || defaultConfig.site_tagline;
+        const heading = config.hero_heading || defaultConfig.hero_heading;
+        const bg = config.background_color || defaultConfig.background_color;
+        const surface = config.surface_color || defaultConfig.surface_color;
+        const text = config.text_color || defaultConfig.text_color;
+        const primary = config.primary_action_color || defaultConfig.primary_action_color;
+        const secondary = config.secondary_action_color || defaultConfig.secondary_action_color;
+        const font = config.font_family || defaultConfig.font_family;
+        const size = config.font_size || defaultConfig.font_size;
+
+        document.getElementById('site-tagline').textContent = tagline;
+        document.getElementById('hero-heading').innerHTML = `<span class="gradient-text">${heading}</span><br><span class="text-gray-200">For Imperfect Moments</span>`;
+
+        document.querySelector('.app-shell').style.backgroundColor = bg;
+        document.querySelector('.app-shell').style.color = text;
+        document.querySelector('.app-shell').style.fontFamily = `${font}, Outfit, sans-serif`;
+        document.querySelector('.app-shell').style.fontSize = `${size}px`;
+
+        document.querySelectorAll('nav, footer').forEach(el => { el.style.borderColor = surface; });
+      },
+      mapToCapabilities: (config) => ({
+        recolorables: [
+          { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+          { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+          { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+          { get: () => config.primary_action_color || defaultConfig.primary_action_color, set: (v) => { config.primary_action_color = v; window.elementSdk.setConfig({ primary_action_color: v }); } },
+          { get: () => config.secondary_action_color || defaultConfig.secondary_action_color, set: (v) => { config.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }); } },
+        ],
+        borderables: [],
+        fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
+        fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ['site_tagline', config.site_tagline || defaultConfig.site_tagline],
+        ['hero_heading', config.hero_heading || defaultConfig.hero_heading]
+      ])
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a079fc197c5f0b04',t:'MTc4MDc3NTgzMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
