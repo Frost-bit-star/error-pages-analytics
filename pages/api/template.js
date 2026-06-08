@@ -1,18 +1,24 @@
-import fs from "fs";
-import path from "path";
 import axios from "axios";
 
 const GITHUB_RAW_BASE =
   "https://raw.githubusercontent.com/ui-errors/error-pages-templates/main/";
 
-// Helper to load local registry JSON
-function loadRegistry(type) {
+const REGISTRY_BASE =
+  `${GITHUB_RAW_BASE}registry/`;
+
+// Helper to load registry JSON from GitHub
+async function loadRegistry(type) {
   try {
-    const filePath = path.join(process.cwd(), "registry", `${type}.json`);
-    const raw = fs.readFileSync(filePath, "utf-8");
-    return JSON.parse(raw).templates || [];
+    const { data } = await axios.get(
+      `${REGISTRY_BASE}${type}.json`,
+      {
+        timeout: 10000,
+      }
+    );
+
+    return data.templates || [];
   } catch (err) {
-    console.error("Registry load error:", err);
+    console.error("Registry load error:", err.message);
     return null;
   }
 }
@@ -32,7 +38,7 @@ export default async function handler(req, res) {
   // Return templates list
   // ----------------------------
   if (type === "404" || type === "500") {
-    const templates = loadRegistry(type);
+    const templates = await loadRegistry(type);
 
     if (!templates) {
       return res.status(500).json({
