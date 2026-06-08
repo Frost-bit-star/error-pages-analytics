@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import fetch from "node-fetch";
+import axios from "axios";
 
 const GITHUB_RAW_BASE =
   "https://raw.githubusercontent.com/ui-errors/error-pages-templates/main/";
@@ -12,6 +12,7 @@ function loadRegistry(type) {
     const raw = fs.readFileSync(filePath, "utf-8");
     return JSON.parse(raw).templates || [];
   } catch (err) {
+    console.error("Registry load error:", err);
     return null;
   }
 }
@@ -21,16 +22,31 @@ export default async function handler(req, res) {
 
   // Allow external apps
   res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
 
   // ----------------------------
   // Return templates list
   // ----------------------------
   if (type === "404" || type === "500") {
     const templates = loadRegistry(type);
+
     if (!templates) {
-      return res.status(500).json({ error: "Failed to load registry" });
+      return res.status(500).json({
+        success: false,
+        error: "Failed to load registry",
+      });
     }
-    return res.status(200).json({ type, count: templates.length, templates });
+
+    return res.status(200).json({
+      success: true,
+      type,
+      count: templates.length,
+      templates,
+    });
   }
 
   // ----------------------------
@@ -38,28 +54,47 @@ export default async function handler(req, res) {
   // ----------------------------
   if (type === "code") {
     if (!filePath) {
-      return res.status(400).json({ error: "Missing path" });
+      return res.status(400).json({
+        success: false,
+        error: "Missing path parameter",
+      });
     }
 
     try {
-      const url = GITHUB_RAW_BASE + filePath;
-      const response = await fetch(url);
+      const url = `${GITHUB_RAW_BASE}${filePath}`;
 
-      if (!response.ok) {
-        return res.status(404).json({ error: "File not found" });
+      const response = await axios.get(url, {
+        responseType: "text",
+        timeout: 10000,
+      });
+
+      return res.status(200).json({
+        success: true,
+        path: filePath,
+        code: response.data,
+      });
+    } catch (err) {
+      if (err.response?.status === 404) {
+        return res.status(404).json({
+          success: false,
+          error: "File not found",
+        });
       }
 
-      const code = await response.text();
-      return res.status(200).json({ path: filePath, code });
-    } catch (err) {
-      return res.status(500).json({ error: "Failed to fetch code" });
+      console.error("GitHub fetch error:", err.message);
+
+      return res.status(500).json({
+        success: false,
+        error: "Failed to fetch code",
+      });
     }
   }
 
   // ----------------------------
   // Invalid request
   // ----------------------------
-  return res
-    .status(400)
-    .json({ error: "Invalid request. Use ?type=404 | 500 | code" });
+  return res.status(400).json({
+    success: false,
+    error: "Invalid request. Use ?type=404 | 500 | code",
+  });
 }
